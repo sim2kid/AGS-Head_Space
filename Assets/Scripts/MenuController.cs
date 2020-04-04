@@ -9,7 +9,6 @@ public class MenuController : MonoBehaviour
     [Tooltip("The GameObject of the Title Menu")] [SerializeField] private GameObject titleMenu;
     [Tooltip("The GameObject of the Chapter Menu")] [SerializeField] private GameObject chapterMenu;
     [Tooltip("The GameObject of the Credit Menu")] [SerializeField] private GameObject creditMenu;
-    [Tooltip("All the 5 Scene's Names in Chapter Order")] [SerializeField] private string[] gameScenes = new string[5];
 
     void Start() 
     {
@@ -18,8 +17,7 @@ public class MenuController : MonoBehaviour
 
     public void LoadScene(int sceneNumber) 
     {
-        sceneNumber -= 1; //To match the array
-        SceneManager.LoadScene(gameScenes[sceneNumber]);
+        SceneManager.LoadScene(sceneNumber);
 
     }
 
@@ -30,6 +28,7 @@ public class MenuController : MonoBehaviour
 
     public void EnterTitleMenu() 
     {
+        Cursor.lockState = CursorLockMode.None;
         titleMenu.SetActive(true);
         chapterMenu.SetActive(false);
         creditMenu.SetActive(false);
