@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private bool isPaused = false;
-    private bool isGrounded;
-
-    private CharacterController controller;
     [Tooltip("The GameObject of the Player's Camera")] [SerializeField] private GameObject camera;
     [Tooltip("How Fast the Player's Camera moves")] [SerializeField] private float mouseSensitivity = 100f;
+    [Tooltip("How far the Player can reach")] [SerializeField] private float reachDistance = 2.5f;
     [Tooltip("How Fast the Player Moves")] [SerializeField] private float movementSensitivity = 7f;
     [Tooltip("Strength of Gravity")] [SerializeField] private float gravity = -9.81f;
 
@@ -19,13 +16,18 @@ public class PlayerController : MonoBehaviour
 
     [Tooltip("The height of a jump")] [SerializeField] private float jumpHeight = 1f;
 
+    private bool isPaused = false;
+    private bool isGrounded;
     private float xRotation = 0f;
+    private CharacterController controller;
+    private InGameMenuController ui;
 
 
     private Vector3 velocity;
 
     private void Start()
     {
+        ui = GameObject.Find("EventSystem").GetComponent<InGameMenuController>();
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -50,10 +52,29 @@ public class PlayerController : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        
+
         if (!isPaused)
         {
-            if (Input.GetButtonDown("Jump") && isGrounded) {
+            int layerMask = 1 << 10;
+            RaycastHit hit;
+            bool raycast = Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, reachDistance, layerMask);
+            if (raycast)
+            {
+                GameObject hitObj = hit.transform.gameObject;
+                IInteract io = (IInteract)hitObj.GetComponent("IInteract"); ;
+                if (Input.GetButtonDown("Interact"))
+                {
+                    io.interact();
+                }
+                ui.setInteractiveText(io.getTooltip());
+            }
+            else
+            {
+                ui.setInteractiveText("");
+            }
+            
+            if (Input.GetButtonDown("Jump") && isGrounded)
+            {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
             }
             velocity.y += gravity * Time.deltaTime;
@@ -63,6 +84,10 @@ public class PlayerController : MonoBehaviour
             camera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             transform.Rotate(Vector3.up * mouseX);
         }
+        else {
+            ui.setInteractiveText("");
+        }
+
         if (Input.GetButtonDown("Escape"))
         {
             setPause(!isPaused);
