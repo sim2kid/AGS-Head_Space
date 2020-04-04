@@ -5,10 +5,11 @@ using UnityEngine;
 public class InteractBounce : MonoBehaviour, IInteract
 {
     [Tooltip("What shows up when you hover over the object")] [SerializeField] private string tooltip = "Huh... This hasn't been filled in... Oops!!";
+    private Animator anime;
 
     private void Start()
     {
-        
+        anime = GetComponent<Animator>();
     }
     private void Update()
     {
@@ -16,7 +17,7 @@ public class InteractBounce : MonoBehaviour, IInteract
     }
 
     public void interact() {
-        Debug.Log("Oh, you clicked this bounching ball!");
+        anime.SetTrigger("BounceBall");
     }
 
     public string getTooltip() {
