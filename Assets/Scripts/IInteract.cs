@@ -6,4 +6,5 @@ interface IInteract
 {
     void interact();
     string getTooltip();
+    bool isHeld();
 }
