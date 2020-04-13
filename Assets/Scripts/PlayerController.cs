@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private InGameMenuController ui;
 
+    private IInteract lastHeld;
+    private bool isObjHeld;
+
 
     private Vector3 velocity;
 
@@ -30,6 +33,8 @@ public class PlayerController : MonoBehaviour
         ui = GameObject.Find("EventSystem").GetComponent<InGameMenuController>();
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+        isObjHeld = false;
+        lastHeld = null;
     }
 
     // Update is called once per frame
@@ -57,20 +62,37 @@ public class PlayerController : MonoBehaviour
         {
             int layerMask = 1 << 10;
             RaycastHit hit;
-            bool raycast = Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, reachDistance, layerMask);
-            if (raycast)
+            if (isObjHeld && lastHeld != null)
             {
-                GameObject hitObj = hit.transform.gameObject;
-                IInteract io = (IInteract)hitObj.GetComponent("IInteract"); ;
                 if (Input.GetButtonDown("Interact"))
                 {
-                    io.interact();
+                    lastHeld.interact();
+                    isObjHeld = lastHeld.isHeld();
                 }
-                ui.setInteractiveText(io.getTooltip());
+                ui.setInteractiveText(lastHeld.getTooltip());
             }
-            else
+            else 
             {
-                ui.setInteractiveText("");
+                bool raycast = Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, reachDistance, layerMask);
+                if (raycast)
+                {
+                    GameObject hitObj = hit.transform.gameObject;
+                    IInteract io = (IInteract)hitObj.GetComponent("IInteract"); ;
+                    if (Input.GetButtonDown("Interact"))
+                    {
+                        // Interact Before IsHeld Check ALWAYS!!! //
+                        io.interact();
+                        isObjHeld = io.isHeld();
+                        if (isObjHeld == true) {
+                            lastHeld = io;
+                        }
+                    }
+                    ui.setInteractiveText(io.getTooltip());
+                }
+                else
+                {
+                    ui.setInteractiveText("");
+                }
             }
             
             if (Input.GetButtonDown("Jump") && isGrounded)

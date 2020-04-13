@@ -20,7 +20,12 @@ public class InteractBounce : MonoBehaviour, IInteract
         anime.SetTrigger("BounceBall");
     }
 
-    public string getTooltip() {
+    public string getTooltip()
+    {
         return tooltip;
+    }
+    public bool isHeld()
+    {
+        return false;
     }
 }
