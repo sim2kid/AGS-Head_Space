@@ -41,7 +41,6 @@ GameObject:
   - component: {fileID: 5244639169350126202}
   - component: {fileID: 5244639169350126203}
   - component: {fileID: 5244639169350126197}
-  - component: {fileID: 1504018004390538218}
   - component: {fileID: 7725665049279101737}
   m_Layer: 11
   m_Name: Player
@@ -108,14 +107,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   jumpHeight: 1.2
---- !u!81 &1504018004390538218
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5244639169350126200}
-  m_Enabled: 1
+  stepAudio: {fileID: 8300000, guid: 9133b8d5e52e8664aaa07a693722acf7, type: 3}
+  stepFrequency: 0.68
 --- !u!82 &7725665049279101737
 AudioSource:
   m_ObjectHideFlags: 0
@@ -128,7 +121,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.115
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -368,7 +361,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_RenderingPathCustomFrameSettings:
     bitDatas:
-      data1: 69284264935197
+      data1: 69456063627037
       data2: 4539628424389459968
     lodBias: 1
     lodBiasMode: 0
@@ -379,7 +372,7 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
-  m_Version: 5
+  m_Version: 6
   m_ObsoleteRenderingPath: 0
   m_ObsoleteFrameSettings:
     overrides: 0

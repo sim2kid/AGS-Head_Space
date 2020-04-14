@@ -16,6 +16,14 @@ public class PlayerController : MonoBehaviour
 
     [Tooltip("The height of a jump")] [SerializeField] private float jumpHeight = 1f;
 
+    [Tooltip("Audio OneShot to be played durring footsteps.")] [SerializeField] private AudioClip stepAudio = null;
+    [Tooltip("How often a step can be played (In Seconds)")] [SerializeField] private float stepFrequency = 0.68f;
+
+    private AudioSource audioSource;
+    private Rigidbody rb;
+
+    private float lastStep;
+
     private bool isPaused = false;
     private bool isGrounded;
     private float xRotation = 0f;
@@ -30,11 +38,18 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        lastStep = 0;
         ui = GameObject.Find("EventSystem").GetComponent<InGameMenuController>();
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         isObjHeld = false;
         lastHeld = null;
+        try
+        {
+            rb = GetComponent<Rigidbody>();
+            audioSource = GetComponent<AudioSource>();
+        }
+        catch { }
     }
 
     // Update is called once per frame
@@ -60,6 +75,22 @@ public class PlayerController : MonoBehaviour
 
         if (!isPaused)
         {
+            if ((x != 0 || z != 0) && isGrounded)
+            {
+                if (Time.time - lastStep > stepFrequency)
+                {
+                    if (stepAudio != null && audioSource != null)
+                    {
+                        lastStep = Time.time;
+                        audioSource.PlayOneShot(stepAudio);
+                    }
+                }
+                Debug.Log(Time.time + " " + lastStep);
+            }
+            else {
+                lastStep = 0;
+            }
+
             int layerMask = 1 << 10;
             RaycastHit hit;
             if (isObjHeld && lastHeld != null)
