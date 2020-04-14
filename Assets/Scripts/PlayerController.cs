@@ -9,27 +9,22 @@ public class PlayerController : MonoBehaviour
     [Tooltip("How far the Player can reach")] [SerializeField] private float reachDistance = 2.5f;
     [Tooltip("How Fast the Player Moves")] [SerializeField] private float movementSensitivity = 7f;
     [Tooltip("Strength of Gravity")] [SerializeField] private float gravity = -9.81f;
-
     [Tooltip("The Ground Check Object")] [SerializeField] private Transform groundcheck;
     [Tooltip("The Radius to check for the ground")] [SerializeField] private float groundDistance = 0.4f;
     [Tooltip("What layer the ground is located in.")] [SerializeField] private LayerMask groundMask;
-
     [Tooltip("The height of a jump")] [SerializeField] private float jumpHeight = 1f;
-
     [Tooltip("Audio OneShot to be played durring footsteps.")] [SerializeField] private AudioClip stepAudio = null;
     [Tooltip("How often a step can be played (In Seconds)")] [SerializeField] private float stepFrequency = 0.68f;
 
+
     private AudioSource audioSource;
     private Rigidbody rb;
-
     private float lastStep;
-
     private bool isPaused = false;
     private bool isGrounded;
     private float xRotation = 0f;
     private CharacterController controller;
     private InGameMenuController ui;
-
     private IInteract lastHeld;
     private bool isObjHeld;
 
@@ -51,13 +46,12 @@ public class PlayerController : MonoBehaviour
         }
         catch { }
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         isGrounded = Physics.CheckSphere(groundcheck.position, groundDistance, groundMask);
 
-        if (isGrounded && velocity.y < 0) 
+        bool canFootStepsExist = isGrounded && velocity.y < 0;
+        if (canFootStepsExist) 
         {
             velocity.y = -2f;
         }
@@ -72,12 +66,13 @@ public class PlayerController : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-
         if (!isPaused)
         {
-            if ((x != 0 || z != 0) && isGrounded)
+            bool isMovingOnGround = (x != 0 || z != 0) && isGrounded;
+            if (isMovingOnGround)
             {
-                if (Time.time - lastStep > stepFrequency)
+                float timeSinceLastStep = Time.time - lastStep;
+                if (timeSinceLastStep > stepFrequency)
                 {
                     if (stepAudio != null && audioSource != null)
                     {
@@ -85,40 +80,41 @@ public class PlayerController : MonoBehaviour
                         audioSource.PlayOneShot(stepAudio);
                     }
                 }
-                Debug.Log(Time.time + " " + lastStep);
             }
-            else {
+            else /* If not on ground or not moving */ {
                 lastStep = 0;
             }
 
-            int layerMask = 1 << 10;
-            RaycastHit hit;
-            if (isObjHeld && lastHeld != null)
+            int layerMask = 1 << 10; // Layer 10 is Interactable Layers
+
+            bool isThereAHeldObject = isObjHeld && lastHeld != null;
+            if (isThereAHeldObject) // Then use that object
             {
                 if (Input.GetButtonDown("Interact"))
                 {
-                    lastHeld.interact();
-                    isObjHeld = lastHeld.isHeld();
+                    lastHeld.Interact();
+                    isObjHeld = lastHeld.IsHeld();
                 }
-                ui.setInteractiveText(lastHeld.getTooltip());
+                ui.setInteractiveText(lastHeld.GetTooltip());
             }
-            else 
+            else // Find nearby object
             {
-                bool raycast = Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, reachDistance, layerMask);
-                if (raycast)
+                RaycastHit foundObject;
+                bool isRaycastSuccessful = Physics.Raycast(camera.transform.position, camera.transform.forward, out foundObject, reachDistance, layerMask);
+                if (isRaycastSuccessful)
                 {
-                    GameObject hitObj = hit.transform.gameObject;
+                    GameObject hitObj = foundObject.transform.gameObject;
                     IInteract io = (IInteract)hitObj.GetComponent("IInteract"); ;
                     if (Input.GetButtonDown("Interact"))
                     {
                         // Interact Before IsHeld Check ALWAYS!!! //
-                        io.interact();
-                        isObjHeld = io.isHeld();
+                        io.Interact();
+                        isObjHeld = io.IsHeld();
                         if (isObjHeld == true) {
                             lastHeld = io;
                         }
                     }
-                    ui.setInteractiveText(io.getTooltip());
+                    ui.setInteractiveText(io.GetTooltip());
                 }
                 else
                 {
@@ -143,16 +139,16 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Escape"))
         {
-            setPause(!isPaused);
+            SetPause(!isPaused);
         }
 
     }
 
-    public bool isGamePaused() {
+
+    public bool IsGamePaused() {
         return isPaused;
     }
-
-    public void setPause(bool torf) {
+    public void SetPause(bool torf) {
         if (torf == true)
         {
             Cursor.lockState = CursorLockMode.None;

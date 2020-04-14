@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+///<summary> 
+/// This class is used to hold interactable objects. It used IInteract as a template.
+///</summary> 
+
 public class InteractHold : MonoBehaviour, IInteract
 {
     [Tooltip("What shows up when you hover over the object")] [SerializeField] private string tooltipPickUp = "Huh... This hasn't been filled in... Oops!!";
@@ -10,12 +14,13 @@ public class InteractHold : MonoBehaviour, IInteract
     [Tooltip("The object's rotation when held")] [SerializeField] private Vector3 heldRotation = new Vector3(0, 0, 0);
     [Tooltip("[Optional] Audio OneShot to be played durring an interaction.")] [SerializeField] private AudioClip audioClip = null;
 
+
     private GameObject player;
     private AudioSource audioSource;
     private bool isObjHeld;
     private Rigidbody rb;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         isObjHeld = false;
@@ -32,33 +37,36 @@ public class InteractHold : MonoBehaviour, IInteract
         } catch { }
 
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (isObjHeld) {
             Vector3 preMove = transform.position;
+
             transform.position = player.transform.position;
             transform.position += player.transform.forward * heldOffset.x;
             transform.position += player.transform.right * heldOffset.z;
             transform.position += player.transform.up * heldOffset.y;
+
             transform.rotation = player.transform.rotation;
             transform.Rotate(heldRotation);
             if (rb != null) {
                 Vector3 postMove = transform.position;
-                rb.velocity = (postMove - preMove) * 3;
+                int velocityStrength = 3;
+                rb.velocity = (postMove - preMove) * velocityStrength;
             }
         }
     }
-    public void interact()
+
+
+    public void Interact()
     {
         isObjHeld = !isObjHeld;
-        if (audioClip != null && audioSource != null) {
+        bool canPlayAudio = audioClip != null && audioSource != null;
+        if (canPlayAudio) {
             audioSource.PlayOneShot(audioClip);
         }
     }
-
-    public string getTooltip()
+    public string GetTooltip()
     {
         if (isObjHeld)
         {
@@ -69,7 +77,7 @@ public class InteractHold : MonoBehaviour, IInteract
             return tooltipPickUp;
         }
     }
-    public bool isHeld()
+    public bool IsHeld()
     {
         return isObjHeld;
     }

@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-
+///<summary> 
+/// This class is used to trigger an audio sound whenever the object collides with something.
+///</summary> 
 public class CollisionAudio : MonoBehaviour
 {
     [Tooltip("Audio OneShot to be played durring a collision event.")] [SerializeField] private AudioClip collisionAudio = null;
 
-    private AudioSource audioSource;
-    private Rigidbody rb;
 
+    private AudioSource audioSource;
+    private Rigidbody rigidBody;
     private float startTime;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         try
         {
-            rb = GetComponent<Rigidbody>();
+            rigidBody = GetComponent<Rigidbody>();
             audioSource = GetComponent<AudioSource>();
         }
         catch (Exception e)
@@ -28,13 +29,14 @@ public class CollisionAudio : MonoBehaviour
         audioSource.mute = true;
         startTime = Time.time;
     }
-
     void OnCollisionEnter(Collision collision)
     {
-        if (Time.time - startTime > 2) {
+        float timeSinceStart = Time.time - startTime;
+        if (timeSinceStart > 2) {
             audioSource.mute = false;
         }
-        if (collisionAudio != null && audioSource != null)
+        bool audioReady = collisionAudio != null && audioSource != null;
+        if (audioReady)
         {
             audioSource.PlayOneShot(collisionAudio);
         }
