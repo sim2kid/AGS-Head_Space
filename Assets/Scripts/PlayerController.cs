@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private float lastStep;
     private bool isPaused = false;
+    private bool isEscaped, inInventory = false;
     private bool isGrounded;
     private float xRotation = 0f;
     private CharacterController controller;
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundcheck.position, groundDistance, groundMask);
 
         bool canFootStepsExist = isGrounded && velocity.y < 0;
-        if (canFootStepsExist) 
+        if (canFootStepsExist)
         {
             velocity.y = -2f;
         }
@@ -81,7 +82,8 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-            else /* If not on ground or not moving */ {
+            else /* If not on ground or not moving */
+            {
                 lastStep = 0;
             }
 
@@ -110,7 +112,8 @@ public class PlayerController : MonoBehaviour
                         // Interact Before IsHeld Check ALWAYS!!! //
                         io.Interact();
                         isObjHeld = io.IsHeld();
-                        if (isObjHeld == true) {
+                        if (isObjHeld == true)
+                        {
                             lastHeld = io;
                         }
                     }
@@ -121,7 +124,7 @@ public class PlayerController : MonoBehaviour
                     ui.setInteractiveText("");
                 }
             }
-            
+
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
@@ -133,30 +136,66 @@ public class PlayerController : MonoBehaviour
             camera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             transform.Rotate(Vector3.up * mouseX);
         }
-        else {
+        else
+        {
             ui.setInteractiveText("");
         }
 
-        if (Input.GetButtonDown("Escape"))
+        if (Input.GetButtonDown("Inventory") && !isEscaped)
         {
-            SetPause(!isPaused);
+            SetInventory(!inInventory);
+        }
+        else if(Input.GetButtonDown("Escape"))
+        {
+            if (!inInventory)
+            {
+                SetEscaped(!isEscaped);
+            }
+            else 
+            {
+                SetInventory(false);
+                SetEscaped(false);
+            }
         }
 
     }
-
-
-    public bool IsGamePaused() {
-        return isPaused;
-    }
-    public void SetPause(bool torf) {
-        if (torf == true)
+    private void setPause(bool trueOrFalse)
+    {
+        if (trueOrFalse == true)
         {
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
-        else 
+        else
         {
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
-        isPaused = torf;
+        isPaused = trueOrFalse;
+    }
+
+
+    public bool IsGamePaused()
+    {
+        return isPaused;
+    }
+    public bool IsEscaped()
+    {
+        return isEscaped;
+    }
+    public bool InInventory()
+    {
+        return inInventory;
+    }
+    public void SetEscaped(bool trueOrFalse)
+    {
+        isEscaped = trueOrFalse;
+        setPause(isEscaped);
+    }
+
+    public void SetInventory(bool trueOrFalse)
+    {
+        inInventory = trueOrFalse;
+        setPause(inInventory);
     }
 }
