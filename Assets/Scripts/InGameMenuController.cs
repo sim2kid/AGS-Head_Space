@@ -12,11 +12,13 @@ public class InGameMenuController : MonoBehaviour
 {
     [Tooltip("The GameObject of the Esc Menu")] [SerializeField] private GameObject escMenu;
     [Tooltip("GameObject of TextMeshPro for Interactive Objects")] [SerializeField] private GameObject interactiveTextOBJ;
+    [Tooltip("GameObject of the Heads Up Display")] [SerializeField] private GameObject hud;
 
 
     private TextMeshProUGUI interactiveText;
     private PlayerController pc;
     private bool internalPause;
+    private bool internalEscape;
 
 
     void Start()
@@ -25,14 +27,16 @@ public class InGameMenuController : MonoBehaviour
         setInteractiveText("");
         GameObject player = GameObject.Find("Player");
         escMenu.SetActive(false);
+        hud.SetActive(true);
         pc = player.GetComponent<PlayerController>();
+        internalEscape = pc.IsEscaped();
         internalPause = pc.IsGamePaused();
     }
     private void Update()
     {
-        if (pc.IsGamePaused() != internalPause) {
-            internalPause = pc.IsGamePaused();
-            if (pc.IsGamePaused() == true)
+        if (pc.IsEscaped() != internalEscape) {
+            internalEscape = pc.IsEscaped();
+            if (pc.IsEscaped() == true)
             {
                 openMenu();
             }
@@ -40,9 +44,23 @@ public class InGameMenuController : MonoBehaviour
                 escMenu.SetActive(false);
             }
         }
+        if (pc.IsGamePaused() != internalPause)
+        {
+            internalPause = pc.IsGamePaused();
+            if (pc.IsGamePaused() == true)
+            {
+                ToggleHUD(false);
+            }
+            else
+            {
+                ToggleHUD(true);
+            }
+        }
     }
 
-
+    public void ToggleHUD(bool onOff) {
+        hud.SetActive(onOff);
+    }
     public void setInteractiveText(string textInput) {
         interactiveText.text = textInput;
     }
@@ -52,7 +70,7 @@ public class InGameMenuController : MonoBehaviour
     public void backToGame()
     {
         escMenu.SetActive(false);
-        pc.SetPause(false);
+        pc.SetEscaped(false);
     }
     public void backToMainMenu() {
         SceneManager.LoadScene(0);
