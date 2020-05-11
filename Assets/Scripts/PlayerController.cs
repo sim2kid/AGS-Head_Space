@@ -141,17 +141,20 @@ public class PlayerController : MonoBehaviour
             ui.setInteractiveText("");
         }
 
-        if (Input.GetButtonDown("Inventory") && !isEscaped)
+        if (Input.GetButtonDown("Inventory"))
         {
-            SetInventory(!inInventory);
+            if (inInventory || (!isPaused))
+            {
+                SetInventory(!inInventory);
+            }
         }
         else if(Input.GetButtonDown("Escape"))
         {
-            if (!inInventory)
+            if (!inInventory && !isPaused)
             {
                 SetEscaped(!isEscaped);
             }
-            else if(isEscaped || inInventory)
+            else if (isEscaped || inInventory)
             {
                 SetInventory(false);
                 SetEscaped(false);
