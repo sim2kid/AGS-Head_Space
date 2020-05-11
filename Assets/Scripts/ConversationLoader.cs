@@ -17,6 +17,10 @@ public class ConversationLoader : MonoBehaviour
 
     private void Start()
     {
+        setup();
+    }
+
+    private void setup() {
         dialogueSystem = GameObject.Find("DialogueSystem");
         optionButtons = new List<GameObject>();
         audioSource = GameObject.Find("Player").GetComponent<AudioSource>();
@@ -30,7 +34,10 @@ public class ConversationLoader : MonoBehaviour
 
     public void NextConvo(int index) 
     {
-        foreach (GameObject button in optionButtons) 
+        if (audioSource == null) {
+            setup();
+        }
+        foreach (GameObject button in optionButtons)
         {
             GameObject.Destroy(button);
         }
