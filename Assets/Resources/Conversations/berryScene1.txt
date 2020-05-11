@@ -16,9 +16,9 @@
 14	Berry	These things are very dangrous. They're pretty much little Dox books that are made to spread harm to people.	coffee-14	15	What does that mean?	15	. . .		
 15	Berry	That means that people like you, me, and my sister get hurt.	coffee-15	16	What happened to you?	17	What happened to your sister?	18	. . .
 16	Berry	Well... Nothing happened to me directly... You see...	coffee-16	17	> > >				
-17	Berry	My Sister... She ws stalked and murdered. Last last year, the A Eye company had a data breach and her favorite coffee shop's location was posted online.	coffee-17	19	How does that lead to murder??	19	. . .		
+17	Berry	My Sister... She ws stalked and murdered. Late last year, the A Eye company had a data breach and her favorite coffee shop's location was posted online.	coffee-17	19	How does that lead to murder??	19	. . .		
 18	Berry	Let me tell you about my sister... You see...	coffee-18	17	> > >				
-19	Berry	On it's own, it doesn't, but her fans from Bird App were obsessed with her in a very unhealthy way. One of them hat lived in her city camped out that coffe shop and waited for her.	coffee-19	20	That's really creepy	21	She deserved it.	22	. . .
+19	Berry	On it's own, it doesn't lead to murder, but her fans from Bird App were obsessed with her in a very unhealthy way. One of them that lived in her city camped out that coffe shop and waited for her.	coffee-19	20	That's really creepy	21	She deserved it.	22	. . .
 20	Berry	It really is... I don't know how insaine you have to be to do stuff like this, but he did it.	coffee-20	22	> > >				
 21	Berry	What's wrong with you???	coffee-21	23	> > >				
 22	Berry	That guy.. He actually found her, She was kidnapped and went missing for about a week.	coffee-22	24	How did you find out that she died?	21	Sucks to suck.	24	. . .
