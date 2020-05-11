@@ -13,12 +13,14 @@ public class InGameMenuController : MonoBehaviour
     [Tooltip("The GameObject of the Esc Menu")] [SerializeField] private GameObject escMenu;
     [Tooltip("GameObject of TextMeshPro for Interactive Objects")] [SerializeField] private GameObject interactiveTextOBJ;
     [Tooltip("GameObject of the Heads Up Display")] [SerializeField] private GameObject hud;
+    [Tooltip("GameObject of the dialogue stuff")] [SerializeField] private GameObject dialogue;
 
 
     private TextMeshProUGUI interactiveText;
     private PlayerController pc;
     private bool internalPause;
     private bool internalEscape;
+    private bool internalDialogue;
 
 
     void Start()
@@ -27,10 +29,12 @@ public class InGameMenuController : MonoBehaviour
         setInteractiveText("");
         GameObject player = GameObject.Find("Player");
         escMenu.SetActive(false);
+        dialogue.SetActive(false);
         hud.SetActive(true);
         pc = player.GetComponent<PlayerController>();
         internalEscape = pc.IsEscaped();
         internalPause = pc.IsGamePaused();
+        internalDialogue = false;
     }
     private void Update()
     {
@@ -57,7 +61,16 @@ public class InGameMenuController : MonoBehaviour
             }
         }
     }
-
+    public void OpenDialogue(string dialogueToOpen) 
+    {
+        dialogue.SetActive(true);
+        dialogue.GetComponent<ConversationLoader>().LoadConversation(dialogueToOpen);
+        pc.setPause(true);
+    }
+    public void CloseDialogue() {
+        dialogue.SetActive(false);
+        pc.setPause(false);
+    }
     public void ToggleHUD(bool onOff) {
         hud.SetActive(onOff);
     }

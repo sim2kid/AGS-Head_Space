@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
             {
                 SetEscaped(!isEscaped);
             }
-            else 
+            else if(isEscaped || inInventory)
             {
                 SetInventory(false);
                 SetEscaped(false);
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    private void setPause(bool trueOrFalse)
+    public void setPause(bool trueOrFalse)
     {
         if (trueOrFalse == true)
         {
