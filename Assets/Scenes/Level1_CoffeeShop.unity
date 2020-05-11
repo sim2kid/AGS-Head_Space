@@ -34297,7 +34297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltip: Speak To Berry
-  conversation: test
+  conversation: berryScene1
   audioClip: {fileID: 0}
 --- !u!4 &1700586340 stripped
 Transform:
