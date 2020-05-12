@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ConversationLoader : MonoBehaviour
 {
@@ -60,6 +61,8 @@ public class ConversationLoader : MonoBehaviour
         if (conversation.GetOptions().Count == 0) 
         {
             CloseDialogue();
+            //This next bit is hard coded and isn't propper at all
+            SceneManager.LoadScene(2);
         } 
     }
 
