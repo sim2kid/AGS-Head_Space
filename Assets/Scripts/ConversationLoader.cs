@@ -11,7 +11,7 @@ public class ConversationLoader : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameTextbox, textTextbox;
     [SerializeField] private GameObject optionButtonPrefab;
      private int ButtonSpacing = 100;
-    private List<GameObject> optionButtons;
+    private List<GameObject> optionButtons = new List<GameObject>();
     private GameObject dialogueSystem;
 
     public ConversationController conversation;
@@ -23,7 +23,6 @@ public class ConversationLoader : MonoBehaviour
 
     private void setup() {
         dialogueSystem = GameObject.Find("DialogueSystem");
-        optionButtons = new List<GameObject>();
         audioSource = GameObject.Find("Player").GetComponent<AudioSource>();
     }
 
@@ -40,7 +39,7 @@ public class ConversationLoader : MonoBehaviour
         }
         foreach (GameObject button in optionButtons)
         {
-            GameObject.Destroy(button);
+            Destroy(button);
         }
         audioSource.Stop();
         conversation.NextOption(index);
