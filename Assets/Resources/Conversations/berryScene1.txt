@@ -1,0 +1,29 @@
+-1	empty	empty							
+0	Berry	Hey kid, What're you looking at?	coffee-0	1	N-Nothing...	2	Where'd you get that thingy?	6	. . .
+1	Berry	Suuuure... Well, have a seat, kid. 	coffee-1	3	> > >				
+2	Berry	Oh this thing? Why do you ask?	coffee-2	4	It just looked interesting.	7	I need to see it.	8	. . .
+3	-	*You sit down at the coffee table*	-	5	> > >				
+4	Berry	Well, have a seat then. Let's drink some coffee.	coffee-4	3	> > >				
+5	Berry	So you seem to have taken intrest in my McGuffin. Do you want to know what it's used for?	coffee-5	11	Yeah!	12	No, I just need to see it.	13	. . .
+6	Berry	Not much of a talker, ey?	coffee-6	4	> > >				
+7	Berry	It's kind of Private. Could you not look at it?	coffee-7	9	But I need to look at it! It's my mission!	8	. . .		
+8	Berry	Don't talk much, ey? Sit down.	coffee-8	5	> > >				
+9	Berry	I see... So you're the AI... Here! Catch!	coffee-9	10	> > >				
+10	-	*Berry tosses you a gun, which you catch, then proceeds to knock you unconcious.*	-	-1	Next Chapter				
+11	Berry	This McGuffin happens to be an address book that shows people's IPs mapped to their physical locations.	coffee-11	14	> > >				
+12	Berry	Why do you Need to see it? It's kind of Private, you know.	coffee-12	13	I'm sorry, I don't need to see it.	9	But I need to look at it! It's my mission!		
+13	Berry	Hmm... Well I guess I'll tell you about it.	coffee-13	11	> > >				
+14	Berry	These things are very dangrous. They're pretty much little Dox books that are made to spread harm to people.	coffee-14	15	What does that mean?	15	. . .		
+15	Berry	That means that people like you, me, and my sister get hurt.	coffee-15	16	What happened to you?	17	What happened to your sister?	18	. . .
+16	Berry	Well... Nothing happened to me directly... You see...	coffee-16	17	> > >				
+17	Berry	My Sister... She ws stalked and murdered. Late last year, the A Eye company had a data breach and her favorite coffee shop's location was posted online.	coffee-17	19	How does that lead to murder??	19	. . .		
+18	Berry	Let me tell you about my sister... You see...	coffee-18	17	> > >				
+19	Berry	On it's own, it doesn't lead to murder, but her fans from Bird App were obsessed with her in a very unhealthy way. One of them that lived in her city camped out that coffe shop and waited for her.	coffee-19	20	That's really creepy	21	She deserved it.	22	. . .
+20	Berry	It really is... I don't know how insaine you have to be to do stuff like this, but he did it.	coffee-20	22	> > >				
+21	Berry	What's wrong with you???	coffee-21	23	> > >				
+22	Berry	That guy.. He actually found her, She was kidnapped and went missing for about a week.	coffee-22	24	How did you find out that she died?	21	Sucks to suck.	24	. . .
+23	-	*Berry hits you upsiude the head and leaves a gun in your hand. You pass out*	-	-1	> > >				
+24	Berry	When that week came to an end, a sanitary worker found her body floating in the sewers.	coffee-24	25	That's awful.	21	Haha!	25	. . .
+25	Berry	Yeah, it was awful. Now I'm here trying to stop the A Eye company from developing their new huminoid camera. That thing knows no privacy.	coffee-25	26	Oh, that's me.				
+26	Berry	Oh... Is that so... Well, I'm sorry about this. While you seem nice and all, I need to protect my friends and family.	coffee-26	27	What are you sorry about?				
+27	-	*Berry tosses you a gun, which you catch, then proceeds to knock you unconcious.*	-	-1					

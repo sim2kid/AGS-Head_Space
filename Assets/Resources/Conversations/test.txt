@@ -1,0 +1,4 @@
+-1	empty	empty	test				
+0	tester	"Test conversation! Did it work???"	test	1	"Hell Yeah!"	2	"Nah Fam"
+1	tester	"YEAH!"	test	0	restart		
+2	tester	"Aww Man!"	test	-1	exit		

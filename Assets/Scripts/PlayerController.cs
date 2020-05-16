@@ -141,17 +141,20 @@ public class PlayerController : MonoBehaviour
             ui.setInteractiveText("");
         }
 
-        if (Input.GetButtonDown("Inventory") && !isEscaped)
+        if (Input.GetButtonDown("Inventory"))
         {
-            SetInventory(!inInventory);
+            if (inInventory || (!isPaused))
+            {
+                SetInventory(!inInventory);
+            }
         }
         else if(Input.GetButtonDown("Escape"))
         {
-            if (!inInventory)
+            if (!inInventory && !isPaused)
             {
                 SetEscaped(!isEscaped);
             }
-            else 
+            else if (isEscaped || inInventory)
             {
                 SetInventory(false);
                 SetEscaped(false);
@@ -159,7 +162,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    private void setPause(bool trueOrFalse)
+    public void setPause(bool trueOrFalse)
     {
         if (trueOrFalse == true)
         {
